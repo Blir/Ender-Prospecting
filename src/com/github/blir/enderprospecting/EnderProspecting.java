@@ -29,7 +29,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 import cpw.mods.fml.relauncher.FMLRelaunchLog;
 
-@Mod(modid = EnderProspecting.modid, name = "Ender Prospecting", version = "1.0.1.4")
+@Mod(modid = EnderProspecting.modid, name = "Ender Prospecting", version = "1.0.1.6")
 @NetworkMod(clientSideRequired = true, serverSideRequired = true)
 public class EnderProspecting {
 
@@ -51,6 +51,7 @@ public class EnderProspecting {
 	public static CommonProxy proxy;
 
 	private static Configuration config;
+	
 	private static Map<Short, String> ores = new HashMap<Short, String>();
 
 	@EventHandler
@@ -234,5 +235,15 @@ public class EnderProspecting {
 		logger.log(Level.INFO, "Registered {0} with metadata {1}",
 				new Object[] { oreName, hash });
 		return hash;
+	}
+	
+	/* where stack is an EP item */
+	public static String getOreName(ItemStack stack) {
+		return getOreName((short) stack.getItemDamage());
+	}
+	
+	/* where meta is an EP item's meta */
+	public static String getOreName(short meta) {
+		return ores.get(meta);
 	}
 }

@@ -46,31 +46,38 @@ public class ItemTalismanOfProspecting extends Item {
 	@SideOnly(Side.CLIENT)
 	@Override
 	public Icon getIconFromDamage(int dmg) {
-		if (dmg == Block.oreGold.blockID) {
-			return icons[4];
-		}
-		if (dmg == Block.oreIron.blockID) {
-			return icons[2];
-		}
-		if (dmg == Block.oreLapis.blockID) {
-			return icons[7];
-		}
-		if (dmg == Block.oreDiamond.blockID) {
-			return icons[6];
-		}
-		if (dmg == Block.oreRedstone.blockID) {
-			return icons[3];
-		}
-		if (dmg == Block.oreEmerald.blockID) {
-			return icons[5];
-		}
-		if (dmg == Block.oreNetherQuartz.blockID) {
-			return icons[8];
-		}
 		if (dmg == Block.oreCoal.blockID) {
 			return icons[9];
 		}
-		return icons[0];
+		if (dmg == 0) {
+			return icons[0];
+		}
+		String oreName = EnderProspecting.getOreName((short) dmg);
+		if (oreName == null) {
+			return icons[1];
+		}
+		if (oreName.equals("oreGold")) {
+			return icons[4];
+		}
+		if (oreName.equals("oreIron")) {
+			return icons[2];
+		}
+		if (oreName.equals("oreLapis")) {
+			return icons[7];
+		}
+		if (oreName.equals("oreDiamond")) {
+			return icons[6];
+		}
+		if (oreName.equals("oreRedstone")) {
+			return icons[3];
+		}
+		if (oreName.equals("oreEmerald")) {
+			return icons[5];
+		}
+		if (oreName.equals("oreQuartz")) {
+			return icons[8];
+		}
+		return icons[1];
 	}
 
 	@Override
