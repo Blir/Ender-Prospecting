@@ -1,0 +1,6 @@
+{
+    "parent":"enderprospecting:item/prospector",
+    "textures": {
+        "layer0":"enderprospecting:items/prospector_coal"
+    }
+}

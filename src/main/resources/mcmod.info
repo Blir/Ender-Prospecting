@@ -1,0 +1,16 @@
+[
+{
+  "modid": "enderprospecting",
+  "name": "Ender Prospecting",
+  "description": "Craft Eyes of Prospecting and use them to track ores!",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["Blir"],
+  "credits": "Created by Blir. Designed by Blir & Talkarcabbage.",
+  "logoFile": "/assets/blir-enderprospecting/textures/items/prospector0.png",
+  "screenshots": [],
+  "dependencies": []
+}
+]

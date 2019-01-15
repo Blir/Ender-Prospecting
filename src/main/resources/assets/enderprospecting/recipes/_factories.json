@@ -1,0 +1,7 @@
+{
+    "recipes": {
+        "tune_prospector": "com.github.blir.enderprospecting.recipes.TuneEyeOfProspectingRecipe$Factory",
+		"tune_compass": "com.github.blir.enderprospecting.recipes.TuneCompassOfProspectingRecipe$Factory",
+		"repair_compass": "com.github.blir.enderprospecting.recipes.RepairCompassOfProspectingRecipe$Factory"
+    }
+}
