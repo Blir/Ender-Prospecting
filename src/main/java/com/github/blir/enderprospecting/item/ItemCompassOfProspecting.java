@@ -129,8 +129,14 @@ public class ItemCompassOfProspecting extends Item {
         EntityPlayer player = (EntityPlayer) entity;
         if (world == null)
             world = player.world;
-        if (stack.getItemDamage() >= stack.getMaxDamage())
+        if (stack.getItemDamage() >= getMaxDamage(stack)) {
+        	if (isEnabled(stack)) {
+                WritableNBT nbt = getStackTagCompound(stack, true);
+                nbt.tag.setBoolean(en, false);
+                stack.deserializeNBT(nbt.nbt);
+        	}
         	return;
+        }
         String oreName = getOreName(stack);
         if (oreName == null)
         	return;
@@ -258,6 +264,8 @@ public class ItemCompassOfProspecting extends Item {
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
 		ItemStack stack = player.getHeldItem(hand);
+        if (stack.getItemDamage() >= getMaxDamage(stack))
+        	return new ActionResult(EnumActionResult.FAIL, stack);
 		WritableNBT nbt = getStackTagCompound(stack, true);
 		if (nbt.tag.getInteger("cooldown") == 0) {
 			String tag = player.isSneaking() ? sens : en;

@@ -68,6 +68,7 @@ public class EnderProspecting {
 	 * 	upgraded compass recipe
 	 * 
 	 * bugs
+	 * jei hover text is wrong color
 	 * compass
 	 * 	behaves strangely in item frame / minecart chest
 	 * hover text - full opacity at last moment
@@ -76,7 +77,7 @@ public class EnderProspecting {
 	 */
 	
     public static final String MODID = "enderprospecting";
-    public static final String VERSION = "2.1.0.2";
+    public static final String VERSION = "2.1.0.3";
     
     @Instance(MODID)
 	public static EnderProspecting instance;
@@ -197,45 +198,18 @@ public class EnderProspecting {
 	}
 	
 	public static boolean canTrack(String oreName, World world, BlockPos blockPos, EntityPlayer player) {
-		return newLogic3(oreName, world, blockPos, player);
+		return canTrack_pickBlock(oreName, world, blockPos, player);
 	}
 	
-	private static boolean newLogic2(String oreName, World world, BlockPos blockPos, EntityPlayer player) {
-		IBlockState blockState = world.getBlockState(blockPos);
-		NonNullList<ItemStack> trackableOres = OreDictionary.getOres(oreName);
-		Block blockBlock = blockState.getBlock();
-		NonNullList<ItemStack> drops = NonNullList.create();
-		blockBlock.getDrops(drops, world, blockPos, blockState, 0);
-		for (ItemStack drop : drops)
-			if (OreDictionary.containsMatch(false, trackableOres, drop))
-				return true;
-		return false;
-	}
-	
-	private static boolean newLogic3(String oreName, World world, BlockPos blockPos, EntityPlayer player) {
+	private static boolean canTrack_pickBlock(String oreName, World world, BlockPos blockPos, EntityPlayer player) {
 		IBlockState blockState = world.getBlockState(blockPos);
 		NonNullList<ItemStack> trackableOres = OreDictionary.getOres(oreName);
 		ItemStack pickBlock = blockState.getBlock().getPickBlock(blockState, null, world, blockPos, player);
-		// another alternative is getSilkTouchBlock
 		// could also use the old approaches and make sure to pass item meta/dmg
 		return OreDictionary.containsMatch(false, trackableOres, pickBlock);
 	}
 	
-	private static boolean newLogic(String oreName, World world, BlockPos blockPos, EntityPlayer player) {
-		IBlockState blockState = world.getBlockState(blockPos);
-		Block blockBlock = blockState.getBlock();
-		ItemStack blockStack = new ItemStack(blockBlock);
-		int[] ids = OreDictionary.getOreIDs(blockStack);
-		for (int id : ids) {
-			String blockOreName = OreDictionary.getOreName(id);
-			if (blockOreName.equals(oreName)) {
-				return true;
-			}
-		}
-		return false;
-	}
-	
-	private static boolean oldLogic(String oreName, World world, BlockPos blockPos, EntityPlayer player) {
+	private static boolean canTrack_old(String oreName, World world, BlockPos blockPos, EntityPlayer player) {
 		IBlockState blockState = world.getBlockState(blockPos);
 		NonNullList<ItemStack> trackableOres = OreDictionary.getOres(oreName);
 		Block blockBlock = blockState.getBlock();
@@ -286,7 +260,7 @@ public class EnderProspecting {
 	@SubscribeEvent(priority = EventPriority.HIGHEST)
 	@SideOnly(Side.CLIENT)
 	public static void onDrawScreenPost(RenderGameOverlayEvent.Post event) {
-		if(event.getType() == ElementType.ALL) {
+		if (event.getType() == ElementType.ALL) {
 			Minecraft mc = Minecraft.getMinecraft();
 			if (mc.currentScreen == null) {
 				EntityPlayer player = mc.player;
@@ -309,6 +283,8 @@ public class EnderProspecting {
 						mc.fontRenderer.drawStringWithShadow(overlayString, x, y, color);
 						GlStateManager.disableBlend();
 					}
+				} else {
+					overlayTicks = 0;
 				}
 			}
 		}
